@@ -6,7 +6,9 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Jankado\Sdk\Exceptions\ApiException;
+use Jankado\Sdk\Resources\CacRegistration;
 use Jankado\Sdk\Resources\NinValidation;
+use Jankado\Sdk\Resources\Verification;
 
 class Client
 {
@@ -39,12 +41,22 @@ class Client
         return new NinValidation($this);
     }
 
+    public function verification(): Verification
+    {
+        return new Verification($this);
+    }
+
+    public function cacRegistration(): CacRegistration
+    {
+        return new CacRegistration($this);
+    }
+
     public function request(string $method, string $uri, array $options = []): array
     {
         $options['headers'] = array_merge([
             'Authorization' => 'Bearer '.$this->token,
             'Accept' => 'application/json',
-            'User-Agent' => 'Jankado-Laravel-SDK/1.0',
+            'User-Agent' => 'Jankado-Laravel-SDK/1.1',
         ], $options['headers'] ?? []);
 
         try {
